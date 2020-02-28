@@ -1,12 +1,24 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import re
 from re import sub
 from sys import stderr
 from traceback import print_exc
 import sys 
 import requests
+import getopt
+
+wrl_file = 'simulation.wrl'
+html_file = 'index.html'
+opts, args = getopt.getopt(sys.argv[1:], '', ['wrl=', 'html='])
+for opt, arg in opts:
+    if opt in ('--wrl'):
+        wrl_file = arg
+    elif opt in ('--html'):
+        html_file = arg
 
 API_ENDPOINT = "https://doc.instantreality.org/tools/x3d_encoding_converter/convert/"
-with open('simulacion.wrl', 'r') as file:
+with open(wrl_file, 'r') as file:
     wrl_data = file.read()
 
 data = {'input_encoding': 'CLASSIC', 'output_encoding': 'HTML5', 'input_code': wrl_data}
@@ -24,7 +36,7 @@ def unescape(s):
     s = s.replace("&amp;", "&")
     return s
 
-html_file = open("simulacion.html", "w")
+html_file = open(html_file, "w")
 pre_html = unescape(remove_html_tags(output.group(1)))
 html_file.write(pre_html
     .replace("<body>", "<body bgcolor='000'>")
