@@ -9,7 +9,7 @@ import requests
 import getopt
 
 wrl_file = 'simulation.wrl'
-html_file = 'index.html'
+html_file = 'simulation.html'
 opts, args = getopt.getopt(sys.argv[1:], '', ['wrl=', 'html='])
 for opt, arg in opts:
     if opt in ('--wrl'):
