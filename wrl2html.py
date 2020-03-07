@@ -41,7 +41,7 @@ pre_html = unescape(remove_html_tags(output.group(1)))
 html_file.write(pre_html
     .replace("<body>", "<body bgcolor='000'>")
     .replace("400px", "1", 1)
-    .replace("400px", "2", 1)
+    .replace("400px", "1", 1)
     .replace("0.7", "0.75")
     .replace("            <", '\n\t\t\t<')
     .replace("          <", '\n\t\t<')
