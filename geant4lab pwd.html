@@ -1,0 +1,582 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>&quot;Medical physics with Geant4 + Docker = ❤️&quot;</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+@media print { 
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcj6lhk6srj31lc0ksdoa.jpg" referrerpolicy="no-referrer"></p><p><span>In this lab we will learn about the basics of low and mid-energy radiation-matter interaction with the help of </span><a href='https://geant4.web.cern.ch/geant4/'><span>Geant4</span></a><span>, the Geant4 binding for Python (</span><a href='https://gitlab.cern.ch/geant4/geant4/blob/master/environments/g4py/README.md'><span>g4py</span></a><span>),  and of course, our beloved Docker. This lab may fall into the recent (and praiseworthy) trend related to the so called </span><em><a href='https://www.researchgate.net/profile/Carl_Boettiger/publication/266477818_An_introduction_to_Docker_for_reproducible_research_with_examples_from_the_R_environment/links/56e81ce508ae9aecadbaca56/An-introduction-to-Docker-for-reproducible-research-with-examples-from-the-R-environment.pdf?_sg%5B0%5D=98jcI0oukjCz_zwDtOe9nXl_rTsULpFEgS5NSqVYu6vTMAD9OSLNamM_AikeK9fZ8EQ8jJOikPLNUbCNslzckw.7kVkDKbcq_mR5Oxx2Fs0VjUrVXGcbn1-3XGJCLgznKN9YJW_O4NeIa2Sq__GbpSILXrYgBnO92d3jNdJPN6v6g&amp;_sg%5B1%5D=Uc-IV8Be_BJSbvZve1HCV6YsdFeB1yzhuQp4jEuuqecUOxUyKQt1Samh4Ad_xRNNG1jLlI2Txx1oscSYWTeCMF819aMxk5wl2zx6X5sGL52B.7kVkDKbcq_mR5Oxx2Fs0VjUrVXGcbn1-3XGJCLgznKN9YJW_O4NeIa2Sq__GbpSILXrYgBnO92d3jNdJPN6v6g&amp;_iepl='><span>reproducible research</span></a></em><span> and </span><em><a href='https://ieeexplore.ieee.org/document/7555277'><span>Open Educational Resources as a Service</span></a></em><span>. This PWD/Docker-based experience has been carried out with huge success at </span><strong><span>Universidad Internacional de La Rioja (UNIR)</span></strong><span>, as described in this </span><a href='https://iopscience.iop.org/article/10.1088/1361-6404/ab5011'><em><span>research paper</span></em></a><span>. </span></p><hr /><p>&nbsp;</p><h2><a name="simulating-the-building-blocks-of-reality" class="md-header-anchor"></a><span>Simulating the building blocks of Reality</span></h2><p><span>To begin with, let&#39;s start by summarising what is </span><strong><span>Geant4</span></strong><span> and why it is so important in todays particle physics research. As very well stated by </span><a href='https://www.sciencedirect.com/science/article/pii/S0168900203013688'><span>Agostinelli et al.</span></a><span>:</span></p><blockquote><p><img src="https://www.fib.upc.edu/sites/fib/files/logo-cern.jpg" style="float:right;width:170px;height:142px;"><em><span>Geant4 is a toolkit for simulating the </span><strong><span>passage of particles through matter</span></strong><span>. Its functionalities include </span><strong><span>tracking</span></strong><span>, </span><strong><span>geometry</span></strong><span>, </span><strong><span>physics</span></strong><span> models and </span><strong><span>hits</span></strong><span>. The physics processes take into account </span><strong><span>electromagnetic</span></strong><span>, </span><strong><span>hadronic</span></strong><span> and </span><strong><span>optical</span></strong><span> processes, as well as the surrounding </span><strong><span>materials</span></strong><span>, over a </span><strong><span>wide energy range</span></strong><span>. The toolkit is the result of a worldwide collaboration of </span><strong><span>physicists</span></strong><span> and software </span><strong><span>engineers</span></strong><span>. It has been implemented in the </span><strong><span>C++</span></strong><span> programming language. It has been used in applications in </span><strong><span>Particle Physics</span></strong><span>, </span><strong><span>Nuclear Physics</span></strong><span>, accelerator design, </span><strong><span>Space</span></strong><span> Engineering and </span><strong><span>Medical Physics</span></strong><span>.</span></em></p></blockquote><p><img src="https://nukephysik101.files.wordpress.com/2016/01/screenshot-from-2016-01-30-003434.png?w=584" style="float:right;width:50%;padding:6px;"><span>In other words, Geant4 implements our deepest (and best) level of knowledge about Nature… in the form of computer (C++) code. This </span><em><span>deepest level</span></em><span> is no other thing but the </span><a href='https://en.wikipedia.org/wiki/Standard_Model'><strong><span>Standard Model</span></strong></a><span> of physics. This picture describes the </span><strong><span>building blocks of Reality</span></strong><span> (the subatomic particles) as well as the </span><strong><span>fundamental forces</span></strong><span> that govern their interactions. Geant4 acts as some sort of </span><em><span>magnifying lens</span></em><span> that amplifies what happens when a given particle (an electron, a kaon, a muon, or a photon) hits or, better said, </span><em><span>interacts</span></em><span> with its surroundings. This computer toolbox is able to simulate almost all possible scenarios, no matter the actors involved, the geometry or the energy of the event. </span></p><p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRYMxNXRP_19ElbAi0mICSSq9vdLhWSmITg929t_nVKzfbM3CG5" style="float:right;width:25%;padding:0px;"><span>This turns out perfect if we happen to be particle physicists, but it may be felt as </span><em><span>over complicated</span></em><span> for those who just need to model </span><em><span>humbler</span></em><span> atomic interactions for specific fields. One if these specific fields is </span><strong><span>Medical Physics</span></strong><span> and, in this case, Geant4 has a wonderful and easy to use </span><strong><span>Python binding</span></strong><span>, g4py. With the help of Docker, g4py is even easier to use. </span></p><p>&nbsp;</p><h2><a name="particle-physics-in-medicine" class="md-header-anchor"></a><span>Particle Physics in Medicine</span></h2><p><span>The field of Medical Physics has its own complexity. Subatomic particles can be used to treat cancer or tumours or can be used to </span><strong><em><span>image</span></em><span> (probe) a patient&#39;s body</span></strong><span>, i.e., to </span><em><span>see</span></em><span> its inner parts. This last application is the one that will be tackled in this interactive lab. Normally, the type of imaging particle will be the (X-ray) photon, although you&#39;ll be able to play with other </span><em><span>probing rays</span></em><span> such as electrons or positrons. Photons can be defined as </span><em><span>particles of light</span></em><span> and were originally proposed by Einstein in one of his </span><a href='http://astro1.panet.utoledo.edu/~ljc/PE_eng.pdf'><span>1905 paper</span></a><span> </span><em><span>An Heuristic Point of View Toward the Emission and Transformation of Light</span></em><span>. </span></p><p><img src="https://www.ous-research.no/medicalphysics/images/PET_1.JPG" referrerpolicy="no-referrer"></p><p><span>In Medical Imaging, mid-energy photons (a few keV) are </span><em><span>projected</span></em><span> against the patient. Some of these electromagnetic entities are completely absorbed (</span><a href='https://en.wikipedia.org/wiki/Photoelectric_effect'><strong><span>photoelectric</span></strong></a><span> effect), others are diverted (</span><a href='https://en.wikipedia.org/wiki/Compton_scattering'><strong><span>Compton</span></strong></a><span> scattering) by atoms, and others (if their energy is high enough) can even transform themselves into a pair of new objects composed of a electron and an anti-electron (a </span><em><span>positron</span></em><span>). This last process is called </span><a href='https://en.wikipedia.org/wiki/Pair_production'><strong><span>pair production</span></strong></a><span>. In turn, when a positron accidentally hits and electron, they both disappear back into two photons which travel in opposite directions. This is called </span><a href='https://en.wikipedia.org/wiki/Electron–positron_annihilation'><strong><span>annihilation</span></strong></a><span> and it&#39;s the foundation of </span><a href='https://en.wikipedia.org/wiki/Positron_emission_tomography'><strong><span>PET</span></strong><span> imaging</span></a><span> (which produces beautiful and lifesaving images such as the one shown above).</span></p><p>&nbsp;</p><h2><a name="geant4-and-medical-physics" class="md-header-anchor"></a><span>Geant4 and Medical Physics</span></h2><p><img src="https://github.com/pammacdotnet/FFRepo/raw/master/simulation.gif?sanitize=true" style="float:right;width:60%;padding:6px;"><span>As stated above, Geant4 has a </span><em><span>difficult-to-grasp</span></em><span> C++ heart, but </span><strong><span>thanks to g4py</span></strong><span>, its easy to design simple scenarios related to the field of </span><strong><span>Medical Physics</span></strong><span> which </span><strong><span>radiologists</span></strong><span> and </span><strong><span>doctors</span></strong><span> can even used in their daily practice. However, installing and configuring Geant4 and g4py can turn out awkward. We can </span><em><span>alleviate</span></em><span> this problem with Docker and better yet, we can </span><em><span>play</span></em><span> with a simple, yet interesting simulation thanks to Play with Docker. This simulation consists of the </span><strong><em><span>following ingredients</span></em></strong><span>: </span></p><ul><li><span>A </span><strong><span>world</span></strong><span>, or the </span><em><span>simulation limits</span></em><span>. This world has the shape of an empty </span><em><span>elongated cuboid</span></em><span>. The longest axis is the </span><code>z</code><span> (or longitudinal) axis.</span></li><li><span>A </span><strong><span>beam</span></strong><span> of particles that are initially projected along the aforementioned </span><code>z</code><span>-axis. This beam has a nature (type of particles), an energy (in </span><em><span>mega-electronvolts</span></em><span> or MeV, for short) and a count (i.e., how many particles). In a real particle physics experiment or setup, generating (and conforming) such a beam has its complexities. However, in a simulated world, we don&#39;t have to worry about those. </span></li><li><span>A </span><strong><span>target</span></strong><span>, or something the particles can </span><em><span>hit</span></em><span> in their way. This target has also cuboid shape, with a width (thickness) and location (both also defined along the same </span><code>z</code><span>-axis as the world) and is composed of a given (and selectable) material. In Medical Physics, the target is also commonly known as </span><em><span>phantom</span></em><span>. </span></li></ul><p><span>You can take a 3D look at this world in the following image:</span></p><p><img src="https://tva1.sinaimg.cn/large/0082zybpgy1gc7cxrbxxdj315m0k50xx.jpg" referrerpolicy="no-referrer"></p><p><span>Or you can also surf a </span><strong><span>live WebGL version</span></strong><span> by clicking in </span><a href='https://htmlpreview.github.io/?https://github.com/pammacdotnet/FFRepo/blob/master/simulation%20example.html'><span>this link</span></a><span>{:target=&quot;_blank&quot;}. A quick (and tiny) animation is also displayed above.</span></p><p><span>We will now launch </span><strong><span>our own simulations</span></strong><span>. In order to achieve so, let us first </span><strong><span>download the Docker image</span></strong><span> that contains the necessary infrastructure. Remember, you can just </span><strong><span>click in the code cells to have them</span></strong><span> (one by one) </span><strong><span>executed</span></strong><span> ▶️ in the terminal on the left side of this page:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker pull pammacdotnet/g4lpwd</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>It may take a minute 🕐 or so to download the whole image… so please, be (slightly) patient.</span></p><hr /><h2><a name="download-the-simulation-code-from-github" class="md-header-anchor"></a><span>Download the simulation code from Github</span></h2><p><span>The </span><strong><span>code</span></strong><span> of the simple simulation described above can be downloaded by clicking in the next code cell:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">curl https://raw.githubusercontent.com/pammacdotnet/FFRepo/master/simulation.py -o simulation.py -s</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 44px;"></div><div class="CodeMirror-gutters" style="display: none; height: 44px;"></div></div></div></pre><p><span>We recommend you </span><strong><span>take a quick look</span></strong><span> (even if you are not a Python or particle physics enthusiast) so that you realise how it is very easy to experiment with modern computer simulations thanks to awesome tools such as g4py:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pip install pygments</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pygmentize -g simulation.py</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 44px;"></div><div class="CodeMirror-gutters" style="display: none; height: 44px;"></div></div></div></pre><p><span>Also, download (and enable the execution of) this simple Python script to </span><strong><span>convert from </span><a href='https://en.wikipedia.org/wiki/VRML'><span>WRL</span></a><span> data to </span><a href='https://www.x3dom.org'><span>x3dom</span></a><span>-enabled HTML</span></strong><span> content:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">curl https://raw.githubusercontent.com/pammacdotnet/FFRepo/master/wrl2html.py -o wrl2html.py -s</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">chmod +x wrl2html.py </span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>This will allow us to visualise </span><strong><span>3D scenes</span></strong><span> (like the one linked above) in the same Web browser. BTW, this last command  (</span><code>wrl2html.py</code><span>) uses </span><a href='https://doc.instantreality.org/tools/x3d_encoding_converter/'><span>this online converter</span></a><span> made by the company </span><a href='https://www.instantreality.org'><span>instantreality</span></a><span> (part of the </span><a href='http://www.igd.fraunhofer.de/vcst/'><span>Visual Computing System Technologies Group</span></a><span> which, in turn, belongs to the reputed </span><a href='https://www.fraunhofer.de'><span>Fraunhofer</span></a><span> Institute). </span></p><hr /><h2><a name="first-simulation" class="md-header-anchor"></a><span>First simulation</span></h2><p><span>Let&#39;s run our first simulation. It will consist of a beam of 20 photons, each of 1 MeV that hits a water filled target (with a thickness of 20 cm):</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>You&#39;ll see a bunch of information appearing in the terminal:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">**************************************************************</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> Geant4 version Name: geant4-10-04-patch-02 &nbsp;  (25-May-2018)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Copyright : Geant4 Collaboration</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  References : NIM A 506 (2003), 250-303</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : IEEE-TNS 53 (2006), 270-278</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : NIM A 835 (2016), 186-225</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; WWW : http://geant4.org/</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">**************************************************************</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Visualization Manager instantiating with verbosity "warnings (3)"...</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/tracking/storeTrajectory 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/tracking/storeTrajectory 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">phot: &nbsp; for  gamma &nbsp;  SubType= 12  BuildTable= 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  LambdaPrime table from 200 keV to 100 TeV in 61 bins </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  ===== EM models for the G4Region  DefaultRegionForTheWorld ======</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; PhotoElectric :  Emin= &nbsp; &nbsp; &nbsp;  0 eV &nbsp;  Emax= &nbsp; &nbsp;  100 TeV &nbsp; AngularGenSauterGavrila</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">compt: &nbsp; for  gamma &nbsp;  SubType= 13  BuildTable= 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  Lambda table from 100 eV  to 1 MeV, 7 bins per decade, spline: 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  LambdaPrime table from 1 MeV to 100 TeV in 56 bins </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  ===== EM models for the G4Region  DefaultRegionForTheWorld ======</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">…</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">…</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 528px;"></div><div class="CodeMirror-gutters" style="display: none; height: 528px;"></div></div></div></pre><p><span>This is Geant4 telling you all the calculations it has had to carry out for you in behind the scenes in order to generate a final (and mor intuitive) file called </span><code>simulation.wrl</code><span> (default name). It is now time to launch a </span><strong><span>simple web server</span></strong><span> that will let us download or view the results:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">python -m SimpleHTTPServer 80 &gt; /dev/null 2&gt;&amp;1 &amp;</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>By using the </span><code>&amp;</code><span> symbol we state we want the web server to run in the background and with the expression  </span><code>&gt; /dev/null 2&gt;&amp;1</code><span> we guarantee that its output won&#39;t bother us. Once started, the previous file can be downloaded from </span><a href='/simulation.wrl'><span>here</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ⬇️. It&#39;ll take some time because a VRLM file can be quite big. </span></p><p><span>Once in your hard drive, you can 3D-navigate/fly through this file (or any VRML scene) with any of the following software:</span></p><ul><li><a href='https://www.instantreality.org/downloads/'><span>Instant Player</span></a><span>, by </span><a href='https://www.instantreality.org'><span>instantreality</span></a><span>,</span></li><li><a href='https://castle-engine.io/view3dscene.php'><span>view3dscene</span></a><span>, by </span><a href='https://castle-engine.io/index.php'><span>Castle Game Engine</span></a><span>, </span></li><li><a href='https://www.paraview.org'><span>Paraview</span></a><span>, by </span><a href='https://www.kitware.com'><span>Kitware</span></a><span> and,</span></li><li><a href='https://www.blender.org'><span>Blender</span></a><span> (among many others).</span></li></ul><p><span>Here you can see a screenshot of </span><strong><span>view3dscene</span></strong><span> (Windows version):</span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcj9r1xo84j31f60i2guf.jpg" referrerpolicy="no-referrer"></p><p><span>However, it is better to </span><strong><span>transform the WRL file into WebGL-enabled HTML</span></strong><span> with the </span><code>wrl2html.py</code><span> command tackled above:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py </span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>By default, this last command assumes the input WRL file to have the name </span><code>simulation.wrl</code><span> and outputs an HTML file called, by default, </span><code>simulation.html</code><span>. You previous instruction is equivalent to:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation.wrl --html simulation.html</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>You can fly through this 3D HTML version by clicking </span><a href='/simulation.html'><span>here</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️, or you can </span><a href='/'><strong><span>list all files</span></strong></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} 📁.</span></p><hr /><h2><a name="more-simulations" class="md-header-anchor"></a><span>More simulations</span></h2><p><span>Let&#39;s explore more simulations! You achieve this by altering any of the configurable parameters: </span></p><ul><li><strong><span>Particle type</span></strong><span>. Available with the option </span><code>--type</code><span>. Possible values are </span><code>e-</code><span>, </span><code>e+</code><span> or </span><code>gamma</code><span>. The default value is </span><code>gamma</code><span> (also known as photons or, simply, light). </span></li><li><strong><span>Particle energy</span></strong><span>. Available with the option </span><code>--energy</code><span>. All values are expressed in MeV and should be integer values. The default values is 1 (MeV). Bear in mind that X-rays have more or less 0.1 MeV of energy.</span></li><li><strong><span>Phantom material</span></strong><span>. Available with the option </span><code>--material</code><span>. Geant4 defines many materials: </span><code>G4_Al</code><span>, </span><code>G4_Si</code><span>, </span><code>G4_Ar</code><span>, </span><code>G4_Cu</code><span>, </span><code>G4_Fe</code><span>, </span><code>G4_Ge</code><span>, </span><code>G4_Ag</code><span>, </span><code>G4_W</code><span>, </span><code>G4_Au</code><span>, </span><code>G4_Pb</code><span>, </span><code>G4_AIR</code><span>, </span><code>G4_Galactic</code><span>, </span><code>G4_WATER</code><span>, </span><code>G4_CESIUM_IODIDE</code><span>, </span><code>G4_SODIUM_IODIDE</code><span>, </span><code>G4_PLASTIC_SC_VINYLTOLUENE</code><span>, </span><code>G4_MYLAR</code><span>, etc. The default value in our simulations is water (</span><code>G4_WATER</code><span>). Do you remember that the human body is composed of 70% water?</span></li><li><strong><span>Phantom thickness</span></strong><span>. Available with the option </span><code>--size</code><span>. It is the size (along the longitudinal axis) of the phantom, that is, how much matter the beam of particle will have to traverse. </span></li><li><strong><span>Output file</span></strong><span>. Available with the option </span><code>--wrl</code><span>. It represents the name of the VRML file with a 3D representation of the simulation. The default value is </span><code>simulation.wrl</code><span>.</span></li><li><strong><span>Particle count</span></strong><span>. Available with the option </span><code>--count</code><span>. It is the number of particles within the simulated beam. The default value is 20. We suggest that you keep this value under 💯. Otherwise you&#39;ll end up with a huge WRL file, very difficult to manage and visually analyse. </span></li></ul><p>&nbsp;</p><h3><a name="antimatter-to-the-rescue" class="md-header-anchor"></a><span>Antimatter to the rescue!</span></h3><p><span>For instance, the following command:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=e+</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>will </span><strong><span>exchange photons for positrons</span></strong><span>. Positrons are the antiparticles of electrons. The major difference from electrons is their positive charge. You can either download again the </span><a href='/simulation.wrl'><span>WRL file</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ⬇️ or generate a new HTML file. If you run again the </span><code>wrl2html.py</code><span> command with no arguments, the original </span><code>simulation.html</code><span> file will be overwritten ⚠️. However you can change the name of the resulting HTML file:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --html simulation2.html</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><span>This file is </span><a href='/simulation2.html'><span>still browsable</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️. </span></p><p><img src="http://www.physicscentral.com/explore/action/images/antics-img2.gif" style="float:right;width:20%"><span>Positrons tend to </span><strong><span>annihilate with electrons</span></strong><span>. When this happens, </span><strong><span>two photons emerge</span></strong><span> in opposite directions.  As you can see from the following picture, the positrons (yellow traces) suddenly seem to disappear. What is happening is that those positrons find a corresponding electron (attached to the atoms that compose the material) and the mass of both particles is transformed into two photons emerging in any random direction (but opposite ways). </span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdmiq6fkyj30k906qq3l.jpg" referrerpolicy="no-referrer"></p><p>&nbsp;</p><h3><a name="light-seems-to-zigzag" class="md-header-anchor"></a><span>Light seems to zigzag!</span></h3><p><img src="https://i.pinimg.com/originals/15/ec/8d/15ec8d1c8d7dded0592b39ebb9075289.jpg" style="float:right;width:20%"><span>Another effect that you will see in the previous simulation is that light rays seem to bend with sharp angles. This is due to the </span><strong><span>Compton scattering</span></strong><span>. In this process, the path of a photon is diverted by a charged particle, usually an electron. In each scattering event, the ray of light loses energy (decreases its frequency) and its finally </span><em><span>absorbed</span></em><span> by the material. </span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdmw5bh1lj30jy06zjrs.jpg" referrerpolicy="no-referrer"></p><p>&nbsp;</p><h3><a name="superman-o-supergirl-approved-shielding" class="md-header-anchor"></a><span>Superman (o Supergirl)-approved shielding!</span></h3><p><span>Let&#39;s now change the particle type to a more common one (electrons) and let&#39;s have them collide against a lead target:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=e- --material=G4_Pb --wrl simulation3.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation3.wrl --html simulation3.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>The results are displayed </span><a href='/simulation3.html'><span>here</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️. Again, you can specify a new WRL file (with the </span><code>--wrl</code><span> option). As you can see, 1 MeV electrons are unable to penetrate the material. On the contrary, some of them seem to </span><em><span>bounce back</span></em><span>. This is due to electrostatic repulsion against the electronic cloud covering this lead shield.</span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdo3cw7pwj30l6080dgc.jpg" referrerpolicy="no-referrer"></p><p>&nbsp;</p><h3><a name="beware-of-radiation" class="md-header-anchor"></a><span>Beware of radiation!</span></h3><p><span>Let&#39;s repeat the same simulation with a (virtual) water target and with a greater energy:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=e- --energy=100 --wrl simulation4.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation4.wrl --html simulation4.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 44px;"></div><div class="CodeMirror-gutters" style="display: none; height: 44px;"></div></div></div></pre><p><img src="https://web2.uwindsor.ca/courses/physics/high_schools/2006/Medical_Imaging/x%20ray%20brem.gif" style="float:right;width:30%"><span>If you carefully observe the </span><a href='/simulation4.html'><span>simulation results</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️, you&#39;ll notice the famous </span><em><span>electromagnetic showers</span></em><span>. This is the same process that occurs when a cosmic ray hits the upper atmosphere and triggers the generation of new particles. The primary process that we are watching here is </span><strong><em><span>bremsstrahlung</span></em></strong><span>, which consists in the production of electromagnetic radiation (a photon, represented by a white line) when an electron </span><em><span>decelerates</span></em><span> by the presence of matter.</span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdq6dpi0ij31d40ncq7t.jpg" referrerpolicy="no-referrer"></p><p><span>Remember you can either download the resulting WRL file or navigate through the x3dom-enabled HTML file. </span></p><p>&nbsp;</p><h3><a name="ionization" class="md-header-anchor"></a><span>Ionization </span></h3><p><span>Many of the already proposed simulations exhibit ionisations. In this type of interaction, a photon </span><em><span>hits</span></em><span> an electron (attached to an atom) and produces an ion (i.e., an atom </span><em><span>negatively charged</span></em><span>).   </span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdspm2qgzj30yq0d6jrw.jpg" referrerpolicy="no-referrer"></p><p><span>The previous simulation was obtained with the following command (and whose results can be explored </span><a href='/simulation5.html'><span>here</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️):</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=gamma --energy=10 --material=G4_Al --wrl simulation5.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation5.wrl --html simulation5.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>Ionisations can also take place when a moving electron hits an atom at rest (well, one of its orbiting electrons), that is, the ionisation particle can be of the same nature as the removed one.</span></p><hr /><h2><a name="simulation-limits-and-photoelectric-absorption" class="md-header-anchor"></a><span>Simulation limits and photoelectric absorption</span></h2><p><span>Let&#39;s go back a water-filled cuboid and low energies, but let&#39;s </span><em><span>insanely</span></em><span> increase the number of particles (photons). Run the following command in the terminal:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=gamma --energy=2 --count=100 --wrl simulation6.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation6.wrl --html simulation6.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>You&#39;ll see an </span><a href='/simulation6.html'><span>scenario</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️ very similar to this one, where the photons, after traveling in straight lines and/or interacting with matter, seem to disappear:</span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcdta9jpymj31os0mk0zt.jpg" referrerpolicy="no-referrer"></p><p><span>Well, where did all the photons go? Well, some of them reach the </span><em><span>world limits</span></em><span>… Do you remember the movie </span><em><a href='https://www.imdb.com/title/tt0139809/'><span>The 13th Floor</span></a></em><span>?</span></p><p><img src="https://66.media.tumblr.com/e1e51070e9065fb3cc74d24e8d59c2cf/tumblr_omq4gg2LUn1w4t58uo1_400.gifv" style="float:right;width:50%;padding:6px;"><span>When this happens, Geant4 stops calculating any further interactions and any particle trace that crosses the boundaries of the simulation seems to suddenly vanish. However, even inside the simulation realm, some photons seem to </span><em><span>evaporate</span></em><span>. What&#39;s happening? The answer is simple: they are absorbed by the material. With more detail, these absorption processes correspond to the </span><a href='https://en.wikipedia.org/wiki/Photoelectric_effect'><strong><span>photoelectric effect</span></strong></a><span>: photons are completely absorbed by electrons. </span></p><p><span>Here you have a second simulation that better shows the previous processes: </span></p><p><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcexurwrk1j30rw0a3jt5.jpg" referrerpolicy="no-referrer"></p><p><span>This scene can be recreated with the following command, where a beam of just a few electrons hits an iron target:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=e- --material=G4_Fe --count=10 --energy=50 --wrl simulation7.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation7.wrl --html simulation7.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>Each electron produces in turn an </span><a href='https://en.wikipedia.org/wiki/Particle_shower#Electromagnetic_showers'><strong><em><span>electromagnetic shower</span></em></strong></a><span>. These showers consist of a bunch of photons that end up </span><em><span>photoelectrically absorbed</span></em><span>. Take </span><a href='/simulation7.html'><span>a look</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️ for yourself (of course, after running the simulation)!</span></p><p>&nbsp;</p><h2><a name="energy-is-a-kind-of-matter" class="md-header-anchor"></a><span>Energy is </span><em><span>a kind of</span></em><span> matter</span></h2><p><img src="https://j.gifs.com/vOJj9P.gif" style="float:right;width:40%;padding:6px;"><span>Yes, energy can be transformed into matter (and back!)… as discovered by Einstein in his famous </span><a href='http://hermes.ffn.ub.es/luisnavarro/nuevo_maletin/Einstein_1905_relativity.pdf'><span>1905 paper</span></a><span>: </span><em><span>On the Electrodynamics of Moving Bodies</span></em><span>. BTW, Einstein was also responsible for the explanation of the photoelectric effect, as commented in the introduction above. </span></p><p><span>(Not that Einstein!)</span></p><p><span>Run the following simulation:</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=".term1"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=".term1"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">docker run -v ${PWD}:/root pammacdotnet/g4lpwd --type=gamma --material=G4_WATER --count=10 --energy=15 --wrl simulation8.wrl</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./wrl2html.py --wrl simulation8.wrl --html simulation8.html</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><p><span>You </span><a href='/simulation8.html'><span>will see</span></a><span>{:data-term=&quot;.term1&quot;}{:data-port=&quot;80&quot;} ↗️ some events like the following, where a photon (with no mass and thus made of pure energy), after colliding with an atom, transfers all its momentum to the creation of two particles: an electron and anti-electron (positron). </span><img src="https://tva1.sinaimg.cn/large/00831rSTgy1gcex54zkp3j31240bm3z0.jpg" referrerpolicy="no-referrer"></p><p><span>That is: energy (</span><em><span>E</span></em><span>) gets converted into matter (</span><em><span>m</span></em><span>), following the famous Einstein equation: </span><em><span>E=m·c·c</span></em><span>, where </span><em><span>c</span></em><span> is the speed of light. This process is known as </span><strong><em><span>pair production</span></em></strong><span>. </span></p><p>&nbsp;</p><h2><a name="final-words" class="md-header-anchor"></a><span>Final words</span></h2><p><span>Now it&#39;s time for you to play with your own simulations. This includes other materials, energies, particles, etc. As stated above, you can also increase the number of particles, but we suggest you keep this number below 100. This lab is based on the </span><a href='https://iopscience.iop.org/article/10.1088/1361-6404/ab5011'><span>article</span></a><span> </span><em><span>X-ray imaging virtual online laboratory for engineering undergraduates</span></em><span> (by </span><a href='http://twitter.com/albertcorbi'><span>Alberto Corbi</span></a><span>, </span><a href='http://www.danielburgos.eu'><span>Daniel Burgos</span></a><span>, </span><a href='https://www.bangor.ac.uk/computer-science-and-electronic-engineering/staff/franck-vidal/en'><span>Frank Vidal</span></a><span>, </span><a href='https://webific.ific.uv.es/web/en/content/albiol-colomer-francisco-javier'><span>Francisco Albiol</span></a><span> and </span><a href='http://www.upv.es/ficha-personal/alalbiol'><span>Alberto Albiol</span></a><span>) and it has been carried out with success in the first semesters of the </span><a href='https://www.unir.net/ingenieria/grado-informatica/549200001509/'><span>Computing Science degree</span></a><span> at the </span><a href='https://www.unir.net/ingenieria/'><span>School of Engineering</span></a><span> of Universidad Internacional de La Rioja (</span><a href='https://www.unir.net'><span>UNIR</span></a><span>). </span></p><p>&nbsp;</p></div>
+</body>
+</html>
