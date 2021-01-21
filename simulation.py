@@ -26,7 +26,7 @@ for opt, arg in opts:
     elif opt in ('--count'):
         particle_count = int(arg)
     elif opt in ('--energy'):
-        particle_energy = int(arg)
+        particle_energy = float(arg)
     elif opt in ('--size'):
         phantom_thickness = int(arg)
     elif opt in ('--material'):
